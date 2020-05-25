@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Display all customers with GET request
 Route::get('/', function () {
     return view('welcome');
+});
+
+// Adds a customer with POST reques
+Route::post('/customer',function ($request) {
+
+});
+
+// Deletes existing customer with DELETE request
+Route::delete('/customer/{id}', function ($id) {
+
 });
