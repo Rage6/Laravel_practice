@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // Display all customers with GET request
 Route::get('/', function () {
+    // The 'view()' below is actually a function that seeks out the 'welcome' template
     return view('welcome');
 });
 
