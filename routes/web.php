@@ -16,11 +16,21 @@ use Illuminate\Support\Facades\Route;
 // Display all customers with GET request
 Route::get('/', function () {
     // The 'view()' below is actually a function that seeks out the 'welcome' template
-    return view('welcome');
+    return view('customers');
 });
 
 // Adds a customer with POST reques
 Route::post('/customer',function ($request) {
+
+  $validator = Validator::make($request->all(), [
+    'username' => 'required|max:255',
+  ]);
+
+  if ($validator->fails()) {
+    return redirect('/')
+      ->withInput()
+      ->withError($validator);
+  }
 
 });
 
