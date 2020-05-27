@@ -9,7 +9,7 @@
         @include('common.errors')
 
         <!-- New Customer Form -->
-        <form action="/customer" method="POST" class="form-horizontal">
+        <form action="customer" method="POST" class="form-horizontal">
             {{ csrf_field() }}
 
             <!-- Customer Name -->

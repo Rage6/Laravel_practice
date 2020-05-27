@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// I had to add the below imports based on...
+// ... this StackOverflow link (https://stackoverflow.com/questions/34675057/undefined-method-in-requestall)...
+use Illuminate\Http\Request;
+// ... and a suggestion by the Laravel error message.
+use App\Customer;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,17 +25,23 @@ Route::get('/', function () {
 });
 
 // Adds a customer with POST reques
-Route::post('/customer',function ($request) {
+Route::post('/customer',function (Request $request) {
 
   $validator = Validator::make($request->all(), [
-    'username' => 'required|max:255',
-  ]);
+        'username' => 'required|max:255',
+    ]);
 
-  if ($validator->fails()) {
-    return redirect('/')
-      ->withInput()
-      ->withError($validator);
-  }
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $customer = new Customer;
+    $customer->username = $request->username;
+    $customer->save();
+
+    return redirect('/');
 
 });
 
