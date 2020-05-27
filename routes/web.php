@@ -20,8 +20,13 @@ use App\Customer;
 
 // Display all customers with GET request
 Route::get('/', function () {
-    // The 'view()' below is actually a function that seeks out the 'welcome' template
-    return view('customers');
+  // $allCustomers is an 'instance' made with the Customer model (see app/Customer.php) and
+  $allCustomers = Customer::orderBy('created_at', 'asc')->get();
+  // The 'view()' below is actually a function that seeks out the 'welcome' template
+  return view('customers',[
+    // When the $allCustomers instance is sent to 'view/customer.blade.php', it is labeled as 'customers'
+    'customers' => $allCustomers
+  ]);
 });
 
 // Adds a customer with POST reques
