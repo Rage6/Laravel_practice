@@ -8,5 +8,6 @@ class Customer extends Model
 {
     protected $custTable = 'customers';
 
-    protected $custColumns = ['username'];
+    protected $custColumns = ['id','username','created_at','updated_at'];
+    // protected $custColumns = ['customer_id','username','created_at','updated_at'];
 }

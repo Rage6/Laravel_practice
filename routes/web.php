@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// I had to add the below imports based on...
+// ... this StackOverflow link (https://stackoverflow.com/questions/34675057/undefined-method-in-requestall)...
+use Illuminate\Http\Request;
+// ... and a suggestion by the Laravel error message.
+use App\Customer;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,26 +20,38 @@ use Illuminate\Support\Facades\Route;
 
 // Display all customers with GET request
 Route::get('/', function () {
-    // The 'view()' below is actually a function that seeks out the 'welcome' template
-    return view('customers');
+  // $allCustomers is an 'instance' made with the Customer model (see app/Customer.php) and
+  $allCustomers = Customer::orderBy('created_at', 'asc')->get();
+  // The 'view()' below is actually a function that seeks out the 'welcome' template
+  return view('customers',[
+    // When the $allCustomers instance is sent to 'view/customer.blade.php', it is labeled as 'customers'
+    'allCustomers' => $allCustomers
+  ]);
 });
 
 // Adds a customer with POST reques
-Route::post('/customer',function ($request) {
+Route::post('/customer',function (Request $request) {
 
   $validator = Validator::make($request->all(), [
-    'username' => 'required|max:255',
-  ]);
+        'username' => 'required|max:255',
+    ]);
 
-  if ($validator->fails()) {
-    return redirect('/')
-      ->withInput()
-      ->withError($validator);
-  }
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $customer = new Customer;
+    $customer->username = $request->username;
+    $customer->save();
+
+    return redirect('/');
 
 });
 
 // Deletes existing customer with DELETE request
 Route::delete('/customer/{id}', function ($id) {
-
+  Customer::findOrFail($id)->delete();
+  return redirect('/');
 });

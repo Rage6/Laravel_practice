@@ -9,7 +9,7 @@
         @include('common.errors')
 
         <!-- New Customer Form -->
-        <form action="/customer" method="POST" class="form-horizontal">
+        <form action="customer" method="POST" class="form-horizontal">
             {{ csrf_field() }}
 
             <!-- Customer Name -->
@@ -33,4 +33,45 @@
     </div>
 
     <!-- TODO: Current Customer -->
+
+    @if (count($allCustomers) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Current Customers
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-striped task-table">
+
+                    <!-- Table Headings -->
+                    <thead>
+                        <th>Customer</th>
+                        <th>&nbsp;</th>
+                    </thead>
+
+                    <!-- Table Body -->
+                    <tbody>
+                        @foreach ($allCustomers as $oneCustomer)
+                            <tr>
+                                <!-- Customer Name -->
+                                <td class="table-text">
+                                    <div>{{ $oneCustomer->username }}</div>
+                                </td>
+
+                                <td>
+                                    <form action="customer/{{ $oneCustomer->id }}" method="POST">
+                                    <!-- <form action="customer/{{ $oneCustomer->customer_id }}" method="POST"> -->
+                                      {{ csrf_field() }}
+                                      {{ method_field('DELETE') }}
+                                      <button>Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
 @endsection
