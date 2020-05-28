@@ -25,7 +25,7 @@ Route::get('/', function () {
   // The 'view()' below is actually a function that seeks out the 'welcome' template
   return view('customers',[
     // When the $allCustomers instance is sent to 'view/customer.blade.php', it is labeled as 'customers'
-    'customers' => $allCustomers
+    'allCustomers' => $allCustomers
   ]);
 });
 
@@ -52,5 +52,6 @@ Route::post('/customer',function (Request $request) {
 
 // Deletes existing customer with DELETE request
 Route::delete('/customer/{id}', function ($id) {
-
+  Customer::findOrFail($id)->delete();
+  return redirect('/');
 });

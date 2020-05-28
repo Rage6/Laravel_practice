@@ -33,8 +33,8 @@
     </div>
 
     <!-- TODO: Current Customer -->
-    <!-- $customers is the instance sent from the POST route on 'routes/web.php' -->
-    @if (count($customers) > 0)
+
+    @if (count($allCustomers) > 0)
         <div class="panel panel-default">
             <div class="panel-heading">
                 Current Customers
@@ -51,7 +51,7 @@
 
                     <!-- Table Body -->
                     <tbody>
-                        @foreach ($customers as $oneCustomer)
+                        @foreach ($allCustomers as $oneCustomer)
                             <tr>
                                 <!-- Customer Name -->
                                 <td class="table-text">
@@ -59,7 +59,12 @@
                                 </td>
 
                                 <td>
-                                    <!-- TODO: Delete Button -->
+                                    <form action="customer/{{ $oneCustomer->id }}" method="POST">
+                                    <!-- <form action="customer/{{ $oneCustomer->customer_id }}" method="POST"> -->
+                                      {{ csrf_field() }}
+                                      {{ method_field('DELETE') }}
+                                      <button>Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
