@@ -44,6 +44,8 @@ Route::post('/customer',function (Request $request) {
 
     $customer = new Customer;
     $customer->username = $request->username;
+    $customer->first_name = $request->first_name;
+    $customer->last_name = $request->last_name;
     $customer->save();
 
     return redirect('/');

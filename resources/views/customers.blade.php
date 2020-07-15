@@ -17,7 +17,9 @@
                 <label for="customer" class="col-sm-3 control-label">Customer</label>
 
                 <div class="col-sm-6">
-                    <input type="text" name="username" id="customer-name" class="form-control">
+                    <input type="text" name="username" placeholder="Username" id="customer-name" class="form-control">
+                    <input type="text" name="first_name" placeholder="First name" id="customer-name" class="form-control">
+                    <input type="text" name="last_name" placeholder="Last name" id="customer-name" class="form-control">
                 </div>
             </div>
 
@@ -51,13 +53,30 @@
 
                     <!-- Table Body -->
                     <tbody>
+                        <tr>
+                            <!-- Customer Name -->
+                            <th class="table-text">
+                                <div>USERNAME</div>
+                            </th>
+                            <th class="table-text">
+                                <div>FIRST NAME</div>
+                            </th>
+                            <th class="table-text">
+                                <div>LAST NAME</div>
+                            </th>
+                        </tr>
                         @foreach ($allCustomers as $oneCustomer)
                             <tr>
                                 <!-- Customer Name -->
                                 <td class="table-text">
                                     <div>{{ $oneCustomer->username }}</div>
                                 </td>
-
+                                <td class="table-text">
+                                    <div>{{ $oneCustomer->first_name }}</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>{{ $oneCustomer->last_name }}</div>
+                                </td>
                                 <td>
                                     <form action="customer/{{ $oneCustomer->id }}" method="POST">
                                     <!-- <form action="customer/{{ $oneCustomer->customer_id }}" method="POST"> -->
