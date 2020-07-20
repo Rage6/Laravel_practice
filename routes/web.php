@@ -21,31 +21,34 @@ use App\Customer;
 // Display all customers with GET request
 Route::get('/', 'CustomerController@index');
 
-// Adds a customer with POST reques
-Route::post('/customer',function (Request $request) {
+Route::prefix('customer')->group(function() {
+  // Adds a customer with POST reques
+  Route::post('/customer',function (Request $request) {
 
-  $validator = Validator::make($request->all(), [
-        'username' => 'required|max:255',
-    ]);
+    $validator = Validator::make($request->all(), [
+          'username' => 'required|max:255',
+      ]);
 
-    if ($validator->fails()) {
-        return redirect('/')
-            ->withInput()
-            ->withErrors($validator);
-    }
+      if ($validator->fails()) {
+          return redirect('/')
+              ->withInput()
+              ->withErrors($validator);
+      }
 
-    $customer = new Customer;
-    $customer->username = $request->username;
-    $customer->first_name = $request->first_name;
-    $customer->last_name = $request->last_name;
-    $customer->save();
+      $customer = new Customer;
+      $customer->username = $request->username;
+      $customer->first_name = $request->first_name;
+      $customer->last_name = $request->last_name;
+      $customer->save();
 
-    return redirect('/');
+      return redirect('/');
 
-});
+  });
 
-// Deletes existing customer with DELETE request
-Route::delete('/customer/{id}', function ($id) {
-  Customer::findOrFail($id)->delete();
-  return redirect('/');
+  // Deletes existing customer with DELETE request
+  // Route::delete('/customer/{id}', function ($id) {
+  //   Customer::findOrFail($id)->delete();
+  //   return redirect('/');
+  // });
+  Route::delete('{id}', ['as' => 'customer.destroy', 'uses' => 'CustomerController@destroy']);
 });
