@@ -19,39 +19,12 @@ use App\Customer;
 */
 
 // Display all customers with GET request
-Route::get('/', function () {
-  // $allCustomers is an 'instance' made with the Customer model (see app/Customer.php) and
-  $allCustomers = Customer::orderBy('created_at', 'asc')->get();
-  // The 'view()' below is actually a function that seeks out the 'welcome' template
-  return view('customers',[
-    // When the $allCustomers instance is sent to 'view/customer.blade.php', it is labeled as 'customers'
-    'allCustomers' => $allCustomers
-  ]);
-});
+Route::get('/', 'CustomerController@index');
 
-// Adds a customer with POST reques
-Route::post('/customer',function (Request $request) {
+Route::prefix('customer')->group(function() {
+  // Adds a customer with POST request
+  Route::post('',['as' => 'customer.store', 'uses' => 'CustomerController@store']);
 
-  $validator = Validator::make($request->all(), [
-        'username' => 'required|max:255',
-    ]);
-
-    if ($validator->fails()) {
-        return redirect('/')
-            ->withInput()
-            ->withErrors($validator);
-    }
-
-    $customer = new Customer;
-    $customer->username = $request->username;
-    $customer->save();
-
-    return redirect('/');
-
-});
-
-// Deletes existing customer with DELETE request
-Route::delete('/customer/{id}', function ($id) {
-  Customer::findOrFail($id)->delete();
-  return redirect('/');
+  // Deletes existing customer with DELETE request
+  Route::delete('{id}', ['as' => 'customer.destroy', 'uses' => 'CustomerController@destroy']);
 });
