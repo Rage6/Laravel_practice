@@ -41,7 +41,7 @@
             <div class="panel-heading">
                 Current Customers
             </div>
-
+            <div>THIS IS A TEST</div>
             <div class="panel-body">
                 <table class="table table-striped task-table">
 
